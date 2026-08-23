@@ -1,4 +1,5 @@
 :root {
+  --scale: 1; /* 전시 당일 크기 조정용: 1.1, 1.2 등으로 올리면 글자만 전체적으로 커짐 */
   --bg: #2c2c2c;
   --panel: #fafaf8;
   --panel-text: #2c2c2c;
@@ -8,15 +9,12 @@
   --removed-bg: #f5d4c4;
   --added-bg: #d3e8da;
 }
-
 body {
   font-family: 'Apple SD Gothic Neo', 'sans-serif';
   font-weight: 400;
   font-style: normal;
 }
-
 * { box-sizing: border-box; }
-
 html, body {
   margin: 0;
   height: 100%;
@@ -27,7 +25,6 @@ html, body {
   font-style: normal;
   overflow: hidden;
 }
-
 .screen {
   position: absolute;
   inset: 0;
@@ -48,7 +45,7 @@ html, body {
   text-align: center;
 }
 .main-title {
-  font-size: clamp(40px, 7vw, 80px);
+  font-size: calc(clamp(40px, 7vw, 80px) * var(--scale));
   font-weight: 700;
   letter-spacing: -0.02em;
   margin: 0 0 40px 0;
@@ -64,7 +61,7 @@ html, body {
   background: none;
   border: none;
   color: var(--light-muted);
-  font-size: 24px;
+  font-size: calc(24px * var(--scale));
   font-family: inherit;
   cursor: pointer;
   padding: 4px 8px;
@@ -89,27 +86,23 @@ html, body {
   background: var(--bg);
   z-index: 20;
 }
-
 .tab-btn.active {
   color: var(--light-text);
   font-weight: 700;
 }
-
 .tab-btn {
   flex: 1;
   background: none;
   border: none;
   color: var(--light-muted);
   font-family: 'Apple SD Gothic Neo', 'sans-serif';
-  font-size: 17px;
+  font-size: calc(17px * var(--scale));
   cursor: pointer;
 }
 .tab-btn.active {
   color: var(--light-text);
   font-weight: 700;
 }
-
-
 /* ---------- 설명 화면 ---------- */
 #screen-explain {
   padding: 0;
@@ -125,7 +118,7 @@ html, body {
   min-height: calc(100vh - 64px);
   scroll-snap-align: start;
   display: flex;
-   flex-direction: column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 60px 8vw;
@@ -135,7 +128,7 @@ html, body {
   position: absolute;
   top: 100px;
   left: 8vw;
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: calc(clamp(28px, 4vw, 48px) * var(--scale));
   font-weight: 700;
   margin: 0;
   perspective: 500px;
@@ -143,11 +136,10 @@ html, body {
 .explain-page h2 .char {
   display: inline-block;
 }
-
 .explain-body {
   max-width: 480px;
   margin-left: auto;
-  font-size: 18px;
+  font-size: calc(18px * var(--scale));
   line-height: 1.9;
   color: var(--light-text);
   word-break: keep-all;
@@ -165,7 +157,7 @@ html, body {
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 22px;
+  font-size: calc(22px * var(--scale));
   color: var(--light-muted);
   animation: scroll-bounce 1.8s ease-in-out infinite;
 }
@@ -197,7 +189,6 @@ html, body {
 }
 .wiki-panel.grow { flex: 1.5; }
 .wiki-panel.shrink { flex: 0.7; }
-
 .wiki-header {
   border-bottom: 1px solid #c9cbd0;
   padding-bottom: 14px;
@@ -210,7 +201,7 @@ html, body {
   gap: 12px;
 }
 .wiki-doc-title {
-  font-size: 26px;
+  font-size: calc(26px * var(--scale));
   font-weight: 700;
   margin: 0;
   outline: none;
@@ -226,12 +217,12 @@ html, body {
   white-space: nowrap;
 }
 .wiki-meta {
-  font-size: 16px;
+  font-size: calc(16px * var(--scale));
   color: var(--panel-muted);
 }
 .edit-btn {
   font-family: inherit;
-  font-size: 16px;
+  font-size: calc(16px * var(--scale));
   border: none;
   background: none;
   color: #3366cc;
@@ -240,20 +231,18 @@ html, body {
 }
 .edit-btn:hover { text-decoration: underline; }
 .edit-btn.done { color: #3366cc; }
-
-.wiki-body { font-size: 16px; line-height: 1.9; outline: none; }
+.wiki-body { font-size: calc(16px * var(--scale)); line-height: 1.9; outline: none; }
 .wiki-body[contenteditable="true"] { background: rgba(0,0,0,0.02); }
 .wiki-body p { margin: 0 0 16px 0; }
-
 .wiki-subheading {
-  font-size: 20px;
+  font-size: calc(20px * var(--scale));
   font-weight: 700;
   margin: 28px 0 10px 0;
   border-bottom: 1px solid #c9cbd0;
   padding-bottom: 8px;
 }
 .wiki-subheading2 {
-  font-size: 18px;
+  font-size: calc(18px * var(--scale));
   font-weight: 700;
   margin: 20px 0 8px 20px;
   border-bottom: none;
@@ -268,13 +257,12 @@ html, body {
 .heading-text[contenteditable="true"] {
   background: rgba(0,0,0,0.03);
 }
-
 .wiki-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 12px;
   margin-bottom: 24px;
-  font-size: 16px;
+  font-size: calc(16px * var(--scale));
 }
 .wiki-table td {
   border: 1px solid #c9cbd0;
@@ -283,15 +271,13 @@ html, body {
 }
 .wiki-table td.label { width: 120px; color: #2c2c2c; }
 .wiki-table td[contenteditable="true"] { background: rgba(0,0,0,0.02); }
-
 .diff-removed { background: var(--removed-bg); text-decoration: line-through; }
 .diff-added { background: var(--added-bg); }
-
 .table-block { position: relative; }
 .table-remove-btn, .row-add-btn {
   display: none;
   font-family: inherit;
-  font-size: 16px;
+  font-size: calc(16px * var(--scale));
   color: #3366cc;
   background: none;
   border: none;
@@ -301,12 +287,11 @@ html, body {
 }
 .table-remove-btn:hover, .row-add-btn:hover { text-decoration: underline; }
 .is-editing .table-remove-btn, .is-editing .row-add-btn { display: inline-block; }
-
 .row-controls { display: none; border: none !important; padding: 0 4px !important; width: 24px; }
 .is-editing .row-controls { display: table-cell; }
 .row-remove-btn {
   font-family: inherit;
-  font-size: 14px;
+  font-size: calc(14px * var(--scale));
   color: #b23b3b;
   background: none;
   border: none;
@@ -314,14 +299,13 @@ html, body {
   cursor: pointer;
 }
 .row-remove-btn:hover { text-decoration: underline; }
-
 .scroll-toast {
   position: absolute;
   bottom: 84px;
   left: 50%;
   transform: translateX(-50%) translateY(10px);
   color: var(--light-text);
-  font-size: 24px;
+  font-size: calc(24px * var(--scale));
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -331,10 +315,8 @@ html, body {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-
-
 .wiki-edit-guide {
-  font-size: 14px;
+  font-size: calc(14px * var(--scale));
   font-weight: 700;
   color: var(--panel-muted);
   line-height: 1.9;
@@ -381,7 +363,7 @@ html, body {
   z-index: 5;
 }
 .wiki-notice {
-  font-size: 14px;
+  font-size: calc(14px * var(--scale));
   font-weight: 700;
   color: var(--panel-text);
   line-height: 1.9;
@@ -395,25 +377,22 @@ html, body {
 .clickable-word:hover {
   font-weight: 700;
 }
-
 .explain-freeform-wrap {
   position: absolute;
   inset: 0;
 }
 .explain-freeform-box {
   position: absolute;
-  font-size: 18px;
+  font-size: calc(18px * var(--scale));
   line-height: 1.9;
   color: var(--light-text);
   word-break: keep-all;
   white-space: pre-wrap;
   text-align: justify;
 }
-
 /* 첫 번째 이미지 ("갱신되는 시간") 배치 */
 .layout-a .box-1 { left: 38%; top: 12%; width: 33%; }
 .layout-a .box-2 { left: 60%; top: 44%; width: 34%; }
-
 .layout-b .box-1 { left: 34%; top: 12%; width: 33%; }
 .layout-b .box-2 { left: 62%; top: 57%; width: 30%; }
 .explain-col p {
