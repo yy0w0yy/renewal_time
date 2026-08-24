@@ -10,7 +10,7 @@ function goTo(name) {
   screens[name].classList.add('active');
   updateActiveTab(name);
 
-         if (name === 'explain') {
+  if (name === 'explain') {
     document.getElementById('explain-scroll').scrollTop = 0;
     playIntroHeadingAnimation();
     playFirstPageFade();
@@ -46,13 +46,13 @@ function updateActiveTab(name) {
 
 // ---------- 설명 화면 ----------
 const explainParagraphs = [
-  "오늘날 우리는 디지털 환경에서 많은 시간을 보낸다. 그 속에서 5년, 10년, 20년, 또는 그보다도 더 된 과거의 기록들을 마주하기도 한다. 그럴 때 우리는 디지털 기록에서 영원을 느낀다. 우리가 죽어도, 우리의 다음 세대가 죽어도, 우리의 기록은 이 인터넷 세계에 똑같이 남아있는 게 아닐까? 그러나 동시에 디지털 기록은 어쩌면, 아날로그보다 훨씬 연약한 것일 수 있다. 우리가 남긴 기록은 우리가 눈 한 번 깜빡하는 사이 완전히 다른 내용으로 바뀌어 있을지도 모른다.<br><br>웹은 갱신된다. 이 작업에서, 우리는 그렇게 정의했다. 그 갱신이란 건 무엇일까? 비물질적인 매체인 웹에는 어떻게 시간의 흔적이 남고 있는 것일까?",
+  "오늘날 우리는 디지털 환경에서 많은 시간을 보낸다. 그 속에서 5년, 10년, 20년, 또는 그보다도 더 된 과거의 기록을 마주하기도 한다. 그럴 때 우리는 디지털 기록에서 영원을 느낀다. 우리가 죽어도, 우리의 다음 세대가 죽어도, 우리의 기록은 이 인터넷 세계에 똑같이 남아있는 게 아닐까? 그러나 동시에 디지털 기록은 어쩌면, 아날로그보다 훨씬 연약한 것일 수 있다. 우리가 남긴 기록은 우리가 눈 한 번 깜빡하는 사이 완전히 다른 내용으로 바뀌어 있을지도 모른다.<br><br>웹은 갱신된다. 이 작업에서, 우리는 그렇게 정의했다. 그 갱신이란 건 무엇일까? 비물질적인 매체인 웹에는 어떻게 시간의 흔적이 남고 있는 것일까?",
   "네이버 국어사전에 따르면, 갱신이란 단어는 '이미 있던 것을 고쳐 새롭게 하다', '기존의 내용을 변동된 사실에 따라 변경ㆍ추가ㆍ삭제하는 일'이라는 의미를 갖고 있다. 종이에 인쇄된 내용은 변하지 않는다. 물론 찢어지고, 물에 젖고, 불에 타는 등의 변화는 일어난다. 하지만 그것은 종이라는 매체에 일어나는 변화일 뿐, 내용에 일어나는 변화가 아니다. \n\n웹에서는 다르다. 이미 완성해 배포한 웹이라도, 코드를 조금 수정하면 순식간에 디자인을 바꿀 수 있다. 배경색을 바꾸는 것도, 새로운 사진을 넣는 것도, 글을 조금 삭제하는 것도 너무 간단한 일이다. 웹에서는 매체 뿐만 아니라 내용도 변화를 겪는다. 변경되고, 추가되고, 삭제된다. 그래서 우리는 웹이 갱신된다고 한다.",
-  "우리는 어떨 때 웹에서 갱신을 경험할까? 일상적인 예시로는 새로고침에 의한 갱신이 있다. 유튜브, 인스타그램, 뉴스 사이트 등··· 많은 웹에서 흔히 마주할 수 있다.",
+  "우리는 언제 웹에서 갱신을 경험할까? 일상적인 예시로는 새로고침에 의한 갱신이 있다. 유튜브, 인스타그램, 뉴스 사이트 등··· 많은 웹에서 흔히 마주할 수 있다.",
   "또다른 예시로는 덮어쓰기가 있다. 글의 내용이, 이미지가, 어떨 땐 사이트 자체가 통째로 덮어씌워져 아예 다른 무언가가 되어버린다. 업데이트도 이와 비슷한 방식으로 이루어진다. 이전의 버전이 새로운 버전으로 덮어씌워진다.",
-  "예전에 본 적 있는 사이트에 404 error가 뜨며 접속이 불가능하게 된 경험이 있을 것이다. 화면에 남은 건 오류 메시지 뿐이지만, 이 역시 기존의 기록이 삭제되었다는 점에서 갱신으로 볼 수 있다.",
+  "예전에 본 적 있는 사이트에 404 error가 뜨며 접속이 불가능하게 된 경험이 있을 것이다. 화면에 남은 건 오류 메시지뿐이지만, 이 역시 기존의 기록이 삭제되었다는 점에서 갱신으로 볼 수 있다.",
   "이 웹사이트는 갱신을 테마로 한다. 우리는 갱신을 특징으로 하는 웹의 형태 중 위키를 선택했다. 이유는 간단하다. 누구나 위키를 알고 있기 때문이다. 편집을 해본 적은 없더라도, 위키에 있는 정보를 마주한 경험은 누구나 있을 것이다. 그리고 위키 문서를 보다가 저번에 봤을 때와 내용이 조금 달라진 것을 눈치챈 적이 있는 사람도 분명 많을 것이다. 갱신되었음을 체감하는 순간이다. \n\n'경험하는 시간' 탭은 간단히 설명하면 체험 화면이다. '경험하는 시간'에서 관객은 위키 문서의 글을 자유롭게 수정할 수 있다. 내용을 추가할 수도 있고, 완전히 다른 내용으로 덮어씌울 수도 있다. 그것만으로도 이미 갱신을 경험할 수 있지만, 이 웹은 거기서 한 발짝 더 나아간다. 우측 패널에 방금 수정된 문장만을 띄우는 것이다. 가장 최근의 기록만을 보여주는 우측 패널은 끊임없이 갱신되는 웹의 현재성을 강조한다. 이는 지나간 흔적을 담아내는 진과 대비되는 모습으로, 과거의 기록을 흔적도 없이 지울 수 있는 웹만의 특성을 보여준다.",
-  "웹은 지금 이 순간, 현재를 보여준다. 그렇다면 과거를 저장하는 데 있어 웹은 진보다 못한 매체인 것일까? 결코 그렇지 않다. 웹은 종이와 다른 방식으로 정보를 기록하는 것뿐이다. 종이가 순간을 저장한다면 웹은 상태를 저장한다. 세계 최초의 웹사이트를 떠올려 보자. 30년도 넘은 웹사이트지만 전혀 낡지 않았다. 마지막으로 편집되었을 때의 상태를 유지하고 있기 때문이다. 즉 웹은 지나간 순간들을 축적할 수는 없어도, 과거의 상태를 유지하는 데는 특화되어 있다. 그리고 언제나, 가장 최신의 상태로 갱신될 준비가 되어 있다. \n\n또한 무언가 새로워졌다는 것을 알아차리려면 바뀌기 전의 모습을 함께 기억하고 있어야 한다. 그렇다면 웹의 갱신은 웹 고유의 방법으로 과거를 환기시키는 것이라고 볼 수 있는 것이 아닐까. 갱신됨으로써 남는 시간의 흔적이, 분명 있을 것이다."
+  "웹은 지금 이 순간, 현재를 보여준다. 그렇다면 과거를 저장하는 데 있어 웹은 진보다 못한 매체인 것일까? 결코 그렇지 않다. 웹은 종이와 다른 방식으로 정보를 기록하는 것뿐이다. 종이가 순간을 저장한다면 웹은 상태를 저장한다. 세계 최초의 웹사이트를 떠올려 보자. 30년도 넘은 웹사이트지만 전혀 낡지 않았다. 마지막으로 편집되었을 때의 상태를 유지하고 있기 때문이다. 즉 웹은 지나간 순간들을 축적할 수는 없어도, 과거의 상태를 유지하는 데는 특화되어 있다. 그리고 언제나, 가장 최신의 상태로 갱신될 준비가 되어 있다. \n\n또한 무언가 새로워졌다는 것을 알아차리려면 바뀌기 전의 모습을 함께 기억하고 있어야 한다. 그렇다면 웹의 갱신은 웹 고유의 방법으로 과거를 환기하는 것이라고 볼 수 있는 것이 아닐까. 갱신됨으로써 남는 시간의 흔적이, 분명 있을 것이다."
 ];
 const explainIntroCount = 1;
 const scrambleChars = 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ#%&*';
@@ -77,7 +77,7 @@ function attachScramble(span) {
 }
 
 const explainScroll = document.getElementById('explain-scroll');
-const explainHeadings = ["들어가는 말", "갱신되는 웹", "갱신되는 경험", "갱신되는 경험","갱신되는 경험", "갱신되는 시간", "끝맺는 말"];
+const explainHeadings = ["들어가는 말", "갱신되는 웹", "갱신되는 경험", "갱신되는 경험", "갱신되는 경험", "갱신되는 시간", "끝맺는 말"];
 
 explainParagraphs.forEach((paragraph, pIndex) => {
   const page = document.createElement('div');
@@ -87,12 +87,11 @@ explainParagraphs.forEach((paragraph, pIndex) => {
   h2.textContent = explainHeadings[pIndex] || '';
   page.appendChild(h2);
 
-    if (pIndex === 5 || pIndex === 6) {
-    // 자유 배치: 일러스트레이터 시안의 흰 박스 위치 그대로, 페이지마다 다른 배치
+  if (pIndex === 5 || pIndex === 6) {
     const chunks = paragraph.split(/\n+/).filter(c => c.trim().length > 0);
     const wrap = document.createElement('div');
     wrap.className = 'explain-freeform-wrap ' + (pIndex === 5 ? 'layout-a' : 'layout-b');
-        chunks.forEach((chunk, i) => {
+    chunks.forEach((chunk, i) => {
       const box = document.createElement('div');
       box.className = 'explain-freeform-box box-' + (i + 1) + ' fade-up-target';
       const p = document.createElement('p');
@@ -165,7 +164,6 @@ function playIntroHeadingAnimation() {
   );
 }
 
-
 const scrollHint = document.getElementById('scroll-hint');
 explainScroll.addEventListener('scroll', () => {
   const nearBottom = explainScroll.scrollTop + explainScroll.clientHeight >= explainScroll.scrollHeight - 10;
@@ -175,10 +173,9 @@ explainScroll.addEventListener('scroll', () => {
 const explainPages = document.querySelectorAll('.explain-page');
 
 explainPages.forEach((page, pageIdx) => {
-  if (pageIdx === 0) return; // 첫 페이지는 아래에서 따로 처리
+  if (pageIdx === 0) return;
   const targets = page.querySelectorAll('.fade-up-target');
   if (!targets.length) return;
-
   gsap.fromTo(targets,
     { opacity: 0, y: 36 },
     {
@@ -188,8 +185,6 @@ explainPages.forEach((page, pageIdx) => {
   );
 });
 
-// 첫 페이지는 스크롤로 진입하는 게 아니라 항상 화면에 떠 있는 상태로 시작하니,
-// 설명 화면에 들어갈 때마다 이 함수를 직접 호출해서 재생
 function playFirstPageFade() {
   const firstPage = explainPages[0];
   if (!firstPage) return;
@@ -200,7 +195,6 @@ function playFirstPageFade() {
   );
 }
 
-// 3번째 페이지(새로고침 예시) 도착 시 진짜 새로고침 + 그 페이지로 복귀 + 문장 추가
 // 특정 페이지의 특정 단어를 클릭 가능하게 만드는 공통 함수 (원본 텍스트로 항상 리셋)
 function setupClickableWord(pageIdx, target, onClick) {
   const page = explainPages[pageIdx];
@@ -220,13 +214,6 @@ function setupClickableWord(pageIdx, target, onClick) {
   body.appendChild(document.createTextNode(original.slice(idx + target.length)));
 }
 
-setupClickableWord(2, '새로고침', () => {
-  sessionStorage.setItem('reloadTarget', 'explain-2');
-  location.reload();
-});
-
-
-
 function typewriterOverwrite(el, oldText, newText, speed = 18) {
   const len = Math.max(oldText.length, newText.length);
   let i = 0;
@@ -241,8 +228,9 @@ function typewriterOverwrite(el, oldText, newText, speed = 18) {
   }, speed);
 }
 
-const overwriteReplacementText = " 방금 이 글은 덮어쓰기 되었다. 순식간에 벌어진 일이다. 당신은 덮어씌워지기 전의 텍스트를 기억하는가?";
+const overwriteReplacementText = "방금 이 글은 덮어쓰기 되었다. 순식간에 벌어진 일이다. 당신은 덮어씌워지기 전의 텍스트를 기억하는가? 흔적도 없이 사라진 문장을 완벽하게 기억해 내는 것은 꽤 어려운 일일 것이다. '경험하는 시간' 탭에 다녀온다면, 덮어씌워지기 전의 문장을 다시 만날 수 있다.";
 
+// 새로고침 이후, 원래 있던 자리(설명 화면 3번째 페이지)로 자동 복귀
 if (sessionStorage.getItem('reloadTarget') === 'explain-2') {
   sessionStorage.removeItem('reloadTarget');
   goTo('explain');
@@ -250,7 +238,7 @@ if (sessionStorage.getItem('reloadTarget') === 'explain-2') {
   if (targetPage) {
     targetPage.scrollIntoView({ block: 'start' });
     const body = targetPage.querySelector('.explain-body');
-    body.textContent += '\n\n바로 방금 전처럼 말이다.';
+    body.appendChild(document.createTextNode('\n\n바로 방금 전처럼 말이다.'));
   }
 }
 
@@ -260,7 +248,7 @@ const panelRight = document.getElementById('panel-right');
 const experienceStage = document.getElementById('screen-experience');
 
 function setActivePanel(activePanel) {
-  if (isEditing) activePanel = panelLeft; // 편집 중엔 무조건 왼쪽이 큰 상태로 고정
+  if (isEditing) activePanel = panelLeft;
   [panelLeft, panelRight].forEach(p => { p.classList.remove('grow'); p.classList.remove('shrink'); });
   if (activePanel) {
     activePanel.classList.add('grow');
@@ -271,7 +259,6 @@ panelLeft.addEventListener('mouseenter', () => setActivePanel(panelLeft));
 panelRight.addEventListener('mouseenter', () => setActivePanel(panelRight));
 experienceStage.addEventListener('mouseleave', () => setActivePanel(null));
 
-// ---------- 체험 화면: 자유 항목 + 표 추가/삭제 + 위치 고정 1문장 표시 ----------
 // ---------- 체험 화면: 자유 항목 + 표 추가/삭제 + 내용 기반 diff ----------
 const leftTitle = document.getElementById('left-title');
 const leftBody = document.getElementById('left-body');
@@ -286,21 +273,6 @@ let version = 1.0;
 
 function splitSentences(text) {
   return text.trim().split(/(?<=[.?!])\s+/).filter(s => s.trim().length > 0);
-}
-
-function simpleWordDiff(oldText, newText) {
-  const oldWords = oldText.split(/(\s+)/);
-  const newWords = newText.split(/(\s+)/);
-  let prefix = 0;
-  while (prefix < oldWords.length && prefix < newWords.length && oldWords[prefix] === newWords[prefix]) prefix++;
-  let oldEnd = oldWords.length, newEnd = newWords.length;
-  while (oldEnd > prefix && newEnd > prefix && oldWords[oldEnd-1] === newWords[newEnd-1]) { oldEnd--; newEnd--; }
-  return {
-    before: oldWords.slice(0, prefix).join(''),
-    removed: oldWords.slice(prefix, oldEnd).join(''),
-    added: newWords.slice(prefix, newEnd).join(''),
-    after: oldWords.slice(oldEnd).join('')
-  };
 }
 
 function escapeHtml(str) {
@@ -518,16 +490,14 @@ function snapshotBlocks(bodyEl) {
   return blocks;
 }
 
-// 블록을 "같은 블록인지" 판단하는 기준값
 function blockKey(b) {
   if (b.type === 'heading1') return 'h1:' + b.text;
   if (b.type === 'heading2') return 'h2:' + b.text;
   if (b.type === 'table') return 'table:' + JSON.stringify(b.rows);
-  if (b.type === 'paragraph') return 'p:' + (b.sentences[0] || ''); // 문단의 첫 문장으로 정체성 판단
+  if (b.type === 'paragraph') return 'p:' + (b.sentences[0] || '');
   return '';
 }
 
-// LCS 기반 시퀀스 비교: 문서 전체를 위키피디아 편집 이력 비교하듯 훑음
 function computeLCSDiff(oldArr, newArr) {
   const oldKeys = oldArr.map(blockKey);
   const newKeys = newArr.map(blockKey);
@@ -557,17 +527,113 @@ function computeLCSDiff(oldArr, newArr) {
   return result;
 }
 
+// 문단(pEl) 안에서, 바뀐 문장들(changedSentences) 위로
+// 검정 하이라이트가 왼쪽→오른쪽으로 그어졌다가 같은 방향으로 걷히는 효과를 재생
+function highlightLeftParagraph(pEl, changedSentences) {
+  if (!pEl || !changedSentences || !changedSentences.length) return;
+  const full = pEl.textContent;
+
+  const found = changedSentences
+    .map(s => ({ s, idx: full.indexOf(s) }))
+    .filter(x => x.idx !== -1)
+    .sort((a, b) => a.idx - b.idx);
+
+  found.forEach(({ s, idx }, k) => sweepSentence(pEl, s, idx, k * 120));
+}
+
+function clearSweepOverlays() {
+  leftBody.querySelectorAll('.sweep-overlay').forEach(el => el.remove());
+}
+
+function easeInOut(t) {
+  return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+}
+
+// 문장이 여러 줄에 걸쳐도 읽는 순서대로 이어지도록, 줄 조각들의 너비를 누적해
+// 전체 진행도(0~1)를 줄별 구간으로 환산한다.
+function sweepClipPath(rects, from, to) {
+  const total = rects.reduce((sum, r) => sum + r.w, 0);
+  if (total <= 0) return 'path("M0 0Z")';
+  const a = from * total, b = to * total;
+  let cursor = 0, d = '';
+  rects.forEach(r => {
+    const s = Math.max(a, cursor), e = Math.min(b, cursor + r.w);
+    if (e > s) {
+      const x0 = r.x + (s - cursor), x1 = r.x + (e - cursor);
+      d += 'M' + x0 + ' ' + (r.y - 1) + 'H' + x1 + 'V' + (r.y + r.h + 1) + 'H' + x0 + 'Z';
+    }
+    cursor += r.w;
+  });
+  return 'path("' + (d || 'M0 0Z') + '")';
+}
+
+function sweepSentence(pEl, sentence, idx, delay) {
+  const full = pEl.textContent;
+  const overlay = document.createElement('div');
+  overlay.className = 'sweep-overlay';
+  overlay.appendChild(document.createTextNode(full.slice(0, idx)));
+  const target = document.createElement('span');
+  target.className = 'sweep-target';
+  target.textContent = sentence;
+  overlay.appendChild(target);
+  overlay.appendChild(document.createTextNode(full.slice(idx + sentence.length)));
+
+  overlay.style.clipPath = 'path("M0 0Z")';
+  overlay.style.webkitClipPath = 'path("M0 0Z")';
+  leftBody.appendChild(overlay);
+
+  // 패널 폭이 전환되는 동안 문단이 다시 조판되므로, 매 프레임 위치를 다시 잰다.
+  function measure() {
+    overlay.style.left = pEl.offsetLeft + 'px';
+    overlay.style.top = pEl.offsetTop + 'px';
+    overlay.style.width = pEl.clientWidth + 'px';
+    const origin = overlay.getBoundingClientRect();
+    return Array.from(target.getClientRects())
+      .filter(r => r.width > 0.5)
+      .map(r => ({ x: r.left - origin.left, y: r.top - origin.top, w: r.width, h: r.height }));
+  }
+
+  const draw = 420, hold = 600, retract = 480;
+  const total = draw + hold + retract;
+  let start = null;
+
+  function frame(ts) {
+    if (start === null) start = ts;
+    const e = ts - start;
+    let from = 0, to = 0;
+    if (e < draw) {
+      to = easeInOut(e / draw);
+    } else if (e < draw + hold) {
+      to = 1;
+    } else if (e < total) {
+      to = 1;
+      from = easeInOut((e - draw - hold) / retract);
+    } else {
+      overlay.remove();
+      return;
+    }
+    const path = sweepClipPath(measure(), from, to);
+    overlay.style.clipPath = path;
+    overlay.style.webkitClipPath = path;
+    requestAnimationFrame(frame);
+  }
+  setTimeout(() => requestAnimationFrame(frame), delay);
+}
+
 // diff 결과를 오른쪽 화면에 그리고, 애니메이션까지 재생
 function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
   opts = opts || {};
   const diffOps = computeLCSDiff(oldBlocks, newBlocks);
-
+  clearSweepOverlays();
   rightBody.innerHTML = '';
   const animations = [];
   const removals = [];
+  const leftParagraphEls = Array.from(leftBody.children).filter(el => el.tagName === 'P' && !el.classList.contains('wiki-notice'));
+  let leftParagraphIndex = 0;
 
   diffOps.forEach(op => {
     if (op.type === 'removed') {
+      // 삭제된 문단은 이제 왼쪽 어디에도 존재하지 않으니, leftParagraphIndex는 그대로 둠
       if (op.oldItem.type === 'paragraph') {
         const p = document.createElement('p');
         op.oldItem.sentences.forEach(s => {
@@ -597,6 +663,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
           animations.push({ span, oldText: '', newText: s });
         });
         rightBody.appendChild(p);
+        leftParagraphIndex++; // 새 문단도 왼쪽엔 실제로 존재하니 인덱스는 넘겨줌 (하이라이트는 생략)
       } else if (b.type === 'table') {
         const wrap = document.createElement('div');
         wrap.className = 'table-block';
@@ -636,6 +703,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
       const newSentences = b.sentences;
       const p = document.createElement('p');
       const maxLen = Math.max(oldSentences.length, newSentences.length);
+      const changedForLeft = [];
       for (let k = 0; k < maxLen; k++) {
         const oldS = oldSentences[k] || '';
         const newS = newSentences[k] || '';
@@ -647,6 +715,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
         } else if (newS) {
           span.classList.add('hidden');
           animations.push({ span, oldText: oldS, newText: newS });
+          changedForLeft.push(newS);
         } else {
           span.textContent = oldS;
           removals.push({ span, text: oldS });
@@ -654,6 +723,11 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
         p.appendChild(span);
         p.appendChild(document.createTextNode(' '));
       }
+
+      const leftP = leftParagraphEls[leftParagraphIndex];
+      highlightLeftParagraph(leftP, changedForLeft);
+      leftParagraphIndex++;
+
       rightBody.appendChild(p);
     }
   });
@@ -666,7 +740,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
     rightVersion.textContent = 'ver. ' + version.toFixed(1);
   }
 
-   animations.forEach(({ span, oldText, newText }) => {
+  animations.forEach(({ span, oldText, newText }) => {
     span.classList.remove('hidden');
     animateSentenceReplace(span, oldText, newText);
   });
@@ -676,18 +750,20 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
     setTimeout(() => { span.remove(); }, 1600);
   });
 
-  // 방금 바뀐 부분으로 오른쪽 패널을 자동 스크롤
   const firstTarget = (animations[0] && animations[0].span) || (removals[0] && removals[0].span);
   if (firstTarget) {
     firstTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
-// ---------- 저장/불러오기 (이제 순수 텍스트/HTML만 저장하면 충분해요) ----------
+
+// ---------- 저장/불러오기 ----------
 const STORAGE_KEY = 'renewalTimeWikiState';
 
 function getCleanBodyHTML() {
   const clone = leftBody.cloneNode(true);
-  clone.querySelectorAll('.table-remove-btn, .row-add-btn, .row-controls').forEach(el => el.remove());
+  clone.querySelectorAll('.table-remove-btn, .row-add-btn, .row-controls, .sweep-overlay').forEach(el => el.remove());
+  clone.querySelectorAll('span.sentence').forEach(sp => sp.replaceWith(document.createTextNode(sp.textContent)));
+  clone.normalize();
   return clone.innerHTML;
 }
 
@@ -698,7 +774,7 @@ function saveState() {
       html: getCleanBodyHTML(),
       version: version
     }));
-  } catch (e) { /* 저장 실패해도 조용히 무시 */ }
+  } catch (e) {}
 }
 
 function loadState() {
@@ -721,12 +797,13 @@ function loadState() {
 loadState();
 renumberHeadings(leftBody);
 let previousBlocks = snapshotBlocks(leftBody);
-renderDiffAndAnimate(previousBlocks, previousBlocks, { silent: true }); // 초기 상태: 전부 배경색
+renderDiffAndAnimate(previousBlocks, previousBlocks, { silent: true });
 
 editBtn.addEventListener('click', () => {
-   if (!isEditing) {
-        isEditing = true;
-    setActivePanel(panelLeft); // 편집 시작하는 순간 왼쪽이 큰 상태로 고정
+  if (!isEditing) {
+    isEditing = true;
+    clearSweepOverlays();
+    setActivePanel(panelLeft);
     leftBody.classList.add('is-editing');
     const guideP = document.createElement('p');
     guideP.className = 'wiki-edit-guide';
@@ -742,7 +819,7 @@ editBtn.addEventListener('click', () => {
     leftBody.setAttribute('contenteditable', 'true');
 
     previousBlocks = snapshotBlocks(leftBody);
-    renderDiffAndAnimate(previousBlocks, previousBlocks, { silent: true }); // 편집 시작 즉시 전부 배경색으로
+    renderDiffAndAnimate(previousBlocks, previousBlocks, { silent: true });
     leftTitle.focus();
   } else {
     isEditing = false;
@@ -774,6 +851,6 @@ editBtn.addEventListener('click', () => {
   }
 });
 
-document.getElementById('edit-guide-confirm-btn').addEventListener('click', () => {
+document.getElementById('edit-guide-confirm-btn')?.addEventListener('click', () => {
   document.getElementById('edit-guide-overlay')?.classList.remove('show');
 });

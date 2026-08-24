@@ -1,3 +1,4 @@
+
 :root {
   --scale: 1; /* 전시 당일 크기 조정용: 1.1, 1.2 등으로 올리면 글자만 전체적으로 커짐 */
   --bg: #2c2c2c;
@@ -86,10 +87,7 @@ html, body {
   background: var(--bg);
   z-index: 20;
 }
-.tab-btn.active {
-  color: var(--light-text);
-  font-weight: 700;
-}
+
 .tab-btn {
   flex: 1;
   background: none;
@@ -231,7 +229,7 @@ html, body {
 }
 .edit-btn:hover { text-decoration: underline; }
 .edit-btn.done { color: #3366cc; }
-.wiki-body { font-size: calc(16px * var(--scale)); line-height: 1.9; outline: none; }
+.wiki-body { font-size: calc(16px * var(--scale)); line-height: 1.9; outline: none; position: relative; }
 .wiki-body[contenteditable="true"] { background: rgba(0,0,0,0.02); }
 .wiki-body p { margin: 0 0 16px 0; }
 .wiki-subheading {
@@ -331,6 +329,25 @@ html, body {
 .sentence {
   color: var(--panel-text);
   transition: color 0.4s ease;
+}
+/* 수정된 문장 위에 원문과 똑같이 조판된 사본을 겹쳐 두고(흰 글씨 + 검정 배경),
+   clip-path로 드러나는 구간만 조절한다. 하이라이트와 흰 글씨가 같은 레이어라
+   하이라이트가 걷히는 즉시 그 자리에 원문의 검정 글씨가 드러난다. */
+.sweep-overlay {
+  position: absolute;
+  margin: 0;
+  z-index: 2;
+  color: transparent;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.sweep-overlay .sweep-target {
+  color: var(--panel);
+  background: var(--panel-text);
+  padding: 0.1em 0;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 #panel-right {
   user-select: none;
