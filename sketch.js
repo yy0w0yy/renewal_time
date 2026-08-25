@@ -494,7 +494,10 @@ function blockKey(b) {
   if (b.type === 'heading1') return 'h1:' + b.text;
   if (b.type === 'heading2') return 'h2:' + b.text;
   if (b.type === 'table') return 'table:' + JSON.stringify(b.rows);
-  if (b.type === 'paragraph') return 'p:' + (b.sentences[0] || '');
+  if (b.type === 'paragraph') {
+    const last = b.sentences[b.sentences.length - 1] || '';
+    return 'p:' + b.sentences.length + ':' + last;
+  }
   return '';
 }
 
@@ -529,6 +532,7 @@ function computeLCSDiff(oldArr, newArr) {
 
 // 문단(pEl) 안에서, 바뀐 문장들(changedSentences) 위로
 // 검정 하이라이트가 왼쪽→오른쪽으로 그어졌다가 같은 방향으로 걷히는 효과를 재생
+// (문단 하나당 오버레이를 딱 하나만 만들어서, 여러 문장이 바뀌어도 겹쳐 쌓이지 않게 함)
 function highlightLeftParagraph(pEl, changedSentences) {
   if (!pEl || !changedSentences || !changedSentences.length) return;
   const full = pEl.textContent;
@@ -537,8 +541,28 @@ function highlightLeftParagraph(pEl, changedSentences) {
     .map(s => ({ s, idx: full.indexOf(s) }))
     .filter(x => x.idx !== -1)
     .sort((a, b) => a.idx - b.idx);
+  if (!found.length) return;
 
-  found.forEach(({ s, idx }, k) => sweepSentence(pEl, s, idx, k * 120));
+  const overlay = document.createElement('div');
+  overlay.className = 'sweep-overlay';
+  let cursor = 0;
+  const targets = [];
+  found.forEach(({ s, idx }) => {
+    if (idx < cursor) return; // 겹치는 구간은 건너뜀
+    overlay.appendChild(document.createTextNode(full.slice(cursor, idx)));
+    const target = document.createElement('span');
+    target.className = 'sweep-target';
+    target.textContent = s;
+    overlay.appendChild(target);
+    targets.push(target);
+    cursor = idx + s.length;
+  });
+  overlay.appendChild(document.createTextNode(full.slice(cursor)));
+
+  overlay.style.clipPath = 'path("M0 0Z")';
+  overlay.style.webkitClipPath = 'path("M0 0Z")';
+  leftBody.appendChild(overlay);
+  sweepOverlay(pEl, overlay, targets);
 }
 
 function clearSweepOverlays() {
@@ -549,9 +573,10 @@ function easeInOut(t) {
   return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 }
 
-// 문장이 여러 줄에 걸쳐도 읽는 순서대로 이어지도록, 줄 조각들의 너비를 누적해
-// 전체 진행도(0~1)를 줄별 구간으로 환산한다.
-function sweepClipPath(rects, from, to) {
+// 여러 target(span)들의 줄 조각을 전부 모아, 문서 순서대로 이어 붙인 뒤
+// 그 누적 너비를 기준으로 진행도(0~1)를 줄별 구간으로 환산한다.
+function sweepClipPath(rectGroups, from, to) {
+  const rects = [].concat(...rectGroups);
   const total = rects.reduce((sum, r) => sum + r.w, 0);
   if (total <= 0) return 'path("M0 0Z")';
   const a = from * total, b = to * total;
@@ -567,30 +592,17 @@ function sweepClipPath(rects, from, to) {
   return 'path("' + (d || 'M0 0Z') + '")';
 }
 
-function sweepSentence(pEl, sentence, idx, delay) {
-  const full = pEl.textContent;
-  const overlay = document.createElement('div');
-  overlay.className = 'sweep-overlay';
-  overlay.appendChild(document.createTextNode(full.slice(0, idx)));
-  const target = document.createElement('span');
-  target.className = 'sweep-target';
-  target.textContent = sentence;
-  overlay.appendChild(target);
-  overlay.appendChild(document.createTextNode(full.slice(idx + sentence.length)));
-
-  overlay.style.clipPath = 'path("M0 0Z")';
-  overlay.style.webkitClipPath = 'path("M0 0Z")';
-  leftBody.appendChild(overlay);
-
-  // 패널 폭이 전환되는 동안 문단이 다시 조판되므로, 매 프레임 위치를 다시 잰다.
+function sweepOverlay(pEl, overlay, targets) {
   function measure() {
     overlay.style.left = pEl.offsetLeft + 'px';
     overlay.style.top = pEl.offsetTop + 'px';
     overlay.style.width = pEl.clientWidth + 'px';
     const origin = overlay.getBoundingClientRect();
-    return Array.from(target.getClientRects())
-      .filter(r => r.width > 0.5)
-      .map(r => ({ x: r.left - origin.left, y: r.top - origin.top, w: r.width, h: r.height }));
+    return targets.map(target =>
+      Array.from(target.getClientRects())
+        .filter(r => r.width > 0.5)
+        .map(r => ({ x: r.left - origin.left, y: r.top - origin.top, w: r.width, h: r.height }))
+    );
   }
 
   const draw = 420, hold = 600, retract = 480;
@@ -617,7 +629,7 @@ function sweepSentence(pEl, sentence, idx, delay) {
     overlay.style.webkitClipPath = path;
     requestAnimationFrame(frame);
   }
-  setTimeout(() => requestAnimationFrame(frame), delay);
+  requestAnimationFrame(frame);
 }
 
 // diff 결과를 오른쪽 화면에 그리고, 애니메이션까지 재생
@@ -750,9 +762,15 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
     setTimeout(() => { span.remove(); }, 1600);
   });
 
-  const firstTarget = (animations[0] && animations[0].span) || (removals[0] && removals[0].span);
+    const firstTarget = (animations[0] && animations[0].span) || (removals[0] && removals[0].span);
   if (firstTarget) {
     firstTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  const firstLeftP = leftParagraphEls.find(p => leftBody.contains(p)); // 방금 하이라이트된 문단들 중 첫 번째
+  const firstSweep = leftBody.querySelector('.sweep-overlay');
+  if (firstSweep) {
+    firstSweep.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
 
