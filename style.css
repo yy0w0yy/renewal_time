@@ -411,7 +411,7 @@ html, body {
   .layout-b .box-1 { top: 4%; }
 }
 @media (min-width: 5000px) {
-  .layout-a .box-1 { top: 3%; }
-  .layout-b .box-1 { top: 3%; }
-  .explain-page h2 { top: 180px; }
+  .layout-a .box-1 { top: 5%; }
+  .layout-b .box-1 { top: 5%; }
+  .explain-page h2 { top: 200px; }
 }
