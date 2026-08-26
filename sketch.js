@@ -284,7 +284,7 @@ const rightBody = document.getElementById('right-body');
 let isEditing = false;
 
 // 전시 시작 날짜 (연, 월-1, 일) — 실제 전시 첫날로 바꿔주세요. 월은 0부터 시작해요 (8월이면 7)
-const EXHIBITION_START = new Date(2026, 8, 31);
+const EXHIBITION_START = new Date(2026, 8, 23);
 
 function getExhibitionDay() {
   const today = new Date();
