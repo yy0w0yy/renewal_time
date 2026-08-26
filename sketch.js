@@ -322,7 +322,7 @@ function animateSentenceReplace(span, oldText, newText, onDone) {
     if (i > 0) {
       i--;
       removedEl.textContent = oldMiddle.slice(0, i);
-      setTimeout(backspace, 45);
+      setTimeout(backspace, 20);
     } else {
       if (removedEl) removedEl.remove();
       typeNew();
@@ -340,8 +340,8 @@ function animateSentenceReplace(span, oldText, newText, onDone) {
     span.innerHTML = escapeHtml(prefix) +
       '<span class="diff-added">' + escapeHtml(newMiddle.slice(0, j)) + '</span>' +
       escapeHtml(suffix);
-        if (j < newMiddle.length) {
-      setTimeout(typeNew, 45);
+     if (j < newMiddle.length) {
+      setTimeout(typeNew, 20);
     } else {
       setTimeout(() => {
         span.textContent = newText;
@@ -580,11 +580,12 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
   opts = opts || {};
     const diffOps = pairByIndex(oldBlocks, newBlocks);
 
-    let removedParagraphCount = 0;
+
   rightBody.innerHTML = '';
    const animations = [];
   const removals = [];
   let lastChangedSentence = null;
+  let removedParagraphCount = 0;
 
   diffOps.forEach(op => {
         if (op.type === 'removed') {
@@ -635,6 +636,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
       }
       return;
     }
+
 
     // same
     const b = op.newItem;
@@ -696,7 +698,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
     animIndex++;
     span.classList.remove('hidden');
     animateSentenceReplace(span, oldText, newText, () => {
-      setTimeout(playNextAnimation, 200); // 문장 사이 간격
+      setTimeout(playNextAnimation, 150); // 문장 사이 간격
     });
   }
   playNextAnimation();
