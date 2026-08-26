@@ -1,6 +1,6 @@
 
 :root {
-  --scale: 1; /* 전시 당일 크기 조정용: 1.1, 1.2 등으로 올리면 글자만 전체적으로 커짐 */
+  --scale: 1;
   --bg: #2c2c2c;
   --panel: #fafaf8;
   --panel-text: #2c2c2c;
@@ -9,6 +9,12 @@
   --light-muted: #9a9a9a;
   --removed-bg: #f5d4c4;
   --added-bg: #d3e8da;
+}
+@media (min-width: 2500px) {
+  :root { --scale: 2; }
+}
+@media (min-width: 5000px) {
+  :root { --scale: 4; }
 }
 body {
   font-family: 'Apple SD Gothic Neo', 'sans-serif';
@@ -135,7 +141,7 @@ html, body {
   display: inline-block;
 }
 .explain-body {
-  max-width: 480px;
+  max-width: calc(480px * var(--scale));
   margin-left: auto;
   font-size: calc(18px * var(--scale));
   line-height: 1.9;
@@ -333,22 +339,7 @@ html, body {
 /* 수정된 문장 위에 원문과 똑같이 조판된 사본을 겹쳐 두고(흰 글씨 + 검정 배경),
    clip-path로 드러나는 구간만 조절한다. 하이라이트와 흰 글씨가 같은 레이어라
    하이라이트가 걷히는 즉시 그 자리에 원문의 검정 글씨가 드러난다. */
-.sweep-overlay {
-  position: absolute;
-  margin: 0;
-  z-index: 2;
-  color: transparent;
-  pointer-events: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-.sweep-overlay .sweep-target {
-  color: var(--panel);
-  background: var(--panel-text);
-  padding: 0.1em 0;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-}
+
 #panel-right {
   user-select: none;
 }
@@ -414,4 +405,13 @@ html, body {
 .layout-b .box-2 { left: 62%; top: 57%; width: 30%; }
 .explain-col p {
   margin: 0 0 20px 0;
+}
+@media (min-width: 2500px) {
+  .layout-a .box-1 { top: 4%; }
+  .layout-b .box-1 { top: 4%; }
+}
+@media (min-width: 5000px) {
+  .layout-a .box-1 { top: 3%; }
+  .layout-b .box-1 { top: 3%; }
+  .explain-page h2 { top: 180px; }
 }
