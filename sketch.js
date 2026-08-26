@@ -516,10 +516,12 @@ addTableBtn.addEventListener('click', () => {
 function snapshotBlocks(bodyEl) {
   const blocks = [];
   Array.from(bodyEl.children).forEach(el => {
-    if (el.classList && el.classList.contains('wiki-subheading1')) {
-      blocks.push({ type: 'heading1', text: el.querySelector('.heading-text').textContent.trim() });
+        if (el.classList && el.classList.contains('wiki-subheading1')) {
+      const t = el.querySelector('.heading-text');
+      if (t) blocks.push({ type: 'heading1', text: t.textContent.trim() });
     } else if (el.classList && el.classList.contains('wiki-subheading2')) {
-      blocks.push({ type: 'heading2', text: el.querySelector('.heading-text').textContent.trim() });
+      const t = el.querySelector('.heading-text');
+      if (t) blocks.push({ type: 'heading2', text: t.textContent.trim() });
     } else if (el.tagName === 'P' && !el.classList.contains('wiki-notice')) {
       const text = el.textContent.trim();
       if (text) blocks.push({ type: 'paragraph', sentences: splitSentences(text) });
@@ -807,10 +809,6 @@ editBtn.addEventListener('click', () => {
     previousBlocks = newBlocks;
     saveState();
   }
-});
-
-document.getElementById('edit-guide-confirm-btn').addEventListener('click', () => {
-  document.getElementById('edit-guide-overlay')?.classList.remove('show');
 });
 
 let syncing = false;
