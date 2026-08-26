@@ -320,8 +320,8 @@ html, body {
   transform: translateX(-50%) translateY(0);
 }
 .wiki-edit-guide {
-  font-size: calc(14px * var(--scale));
-  font-weight: 700;
+  font-size: calc(12px * var(--scale));
+  font-weight: 600;
   color: var(--panel-muted);
   line-height: 1.9;
   margin: 12px 0 0 0;
@@ -371,7 +371,7 @@ html, body {
 }
 .wiki-notice {
   font-size: calc(14px * var(--scale));
-  font-weight: 700;
+  font-weight: 600;
   color: var(--panel-text);
   line-height: 1.9;
   margin: 8px 0 0 0;

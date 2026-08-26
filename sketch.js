@@ -284,7 +284,7 @@ const rightBody = document.getElementById('right-body');
 let isEditing = false;
 
 // 전시 시작 날짜 (연, 월-1, 일) — 실제 전시 첫날로 바꿔주세요. 월은 0부터 시작해요 (8월이면 7)
-const EXHIBITION_START = new Date(2026, 7, 23);
+const EXHIBITION_START = new Date(2026, 7, 31);
 
 function getExhibitionDay() {
   const today = new Date();
@@ -766,7 +766,7 @@ editBtn.addEventListener('click', () => {
     const guideP = document.createElement('p');
     guideP.className = 'wiki-edit-guide';
     guideP.id = 'wiki-edit-guide';
-    guideP.innerHTML = '대분류: <code>=내용=</code> → 1, 2, 3 ...<br>하위항목: <code>-내용-</code> → 1.1, 1.2 ...';
+       guideP.innerHTML = '<code>=내용=</code> 입력: 항목 생성 (ex. =사례= → 1. 사례)<br><code>-내용-</code> 입력: 하위 항목 생성 (ex. -웹사이트- → 1.1 웹사이트)';
     document.querySelector('.wiki-notice').insertAdjacentElement('afterend', guideP);
     editBtn.textContent = '완료';
     editBtn.classList.add('done');
