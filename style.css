@@ -363,11 +363,10 @@ html, body {
 .refresh-flash {
   position: absolute;
   inset: 0;
-  background: #fafaf8;
+  background: var(--panel);
   opacity: 0;
   pointer-events: none;
   border-radius: 8px;
-  transition: opacity 0.08s linear;
   z-index: 5;
 }
 .wiki-notice {

@@ -362,10 +362,12 @@ function animateSentenceReplace(span, oldText, newText) {
 }
 
 function refreshFlash(el) {
+  el.style.transition = 'opacity 0.05s linear';
   el.style.opacity = '1';
-  setTimeout(() => { el.style.opacity = '0'; }, 90);
-  setTimeout(() => { el.style.opacity = '1'; }, 170);
-  setTimeout(() => { el.style.opacity = '0'; }, 270);
+  setTimeout(() => {
+    el.style.transition = 'opacity 0.45s ease';
+    el.style.opacity = '0';
+  }, 260);
 }
 
 function makeHeadingDiv(rawText, level) {
@@ -660,8 +662,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
 
   renumberHeadings(rightBody);
 
-  if (!opts.silent) {
-    refreshFlash(document.getElementById('flash-right'));
+    if (!opts.silent) {
     version += 0.1;
     rightVersion.textContent = 'ver. ' + version.toFixed(1);
   }
