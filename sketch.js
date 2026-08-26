@@ -530,30 +530,46 @@ function blockKey(b) {
 // 문단을 "내용"이 아니라 "순서"로 짝지음 — 내용을 어떻게 고치든 항상 같은 자리끼리 비교되므로
 // 예전 버전 문장이 엉뚱하게 되살아나는 일이 구조적으로 없어짐
 function pairByIndex(oldArr, newArr) {
+  // 두 항목이 "같은 것"인지 판단 (문단은 첫 문장, 소제목/표는 내용으로)
+  function sameIdentity(a, b) {
+    if (!a || !b || a.type !== b.type) return false;
+    if (a.type === 'paragraph') return (a.sentences[0] || '') === (b.sentences[0] || '');
+    if (a.type === 'table') return JSON.stringify(a.rows) === JSON.stringify(b.rows);
+    return a.text === b.text;
+  }
+
   const result = [];
   let i = 0, j = 0;
   while (i < oldArr.length && j < newArr.length) {
     const o = oldArr[i], n = newArr[j];
-    if (o.type === n.type) {
+
+    if (o.type === n.type && (sameIdentity(o, n) || o.type !== 'paragraph')) {
       result.push({ type: 'same', oldItem: o, newItem: n });
       i++; j++;
       continue;
     }
-    // 타입이 다르면: 뒤쪽에서 같은 타입을 찾아 어느 쪽이 삽입/삭제됐는지 판단
-    const nextSameInNew = newArr.findIndex((x, idx) => idx > j && x.type === o.type);
-    const nextSameInOld = oldArr.findIndex((x, idx) => idx > i && x.type === n.type);
-    if (nextSameInNew !== -1 && (nextSameInOld === -1 || nextSameInNew - j <= nextSameInOld - i)) {
-      result.push({ type: 'added', newItem: n }); // 새 항목이 끼어든 것
+
+    // 뒤쪽에서 진짜 짝을 찾아본다
+    const foundInNew = newArr.findIndex((x, idx) => idx > j && sameIdentity(o, x));
+    const foundInOld = oldArr.findIndex((x, idx) => idx > i && sameIdentity(x, n));
+
+    if (foundInNew !== -1 && (foundInOld === -1 || foundInNew - j <= foundInOld - i)) {
+      result.push({ type: 'added', newItem: n }); // 새 항목이 끼어듦
       j++;
-    } else {
-      result.push({ type: 'removed', oldItem: o }); // 예전 항목이 사라진 것
+    } else if (foundInOld !== -1) {
+      result.push({ type: 'removed', oldItem: o }); // 예전 항목이 삭제됨
       i++;
+    } else {
+      // 양쪽 다 못 찾으면 그 자리에서 내용이 바뀐 것으로 간주
+      result.push({ type: 'same', oldItem: o, newItem: n });
+      i++; j++;
     }
   }
   while (j < newArr.length) { result.push({ type: 'added', newItem: newArr[j] }); j++; }
   while (i < oldArr.length) { result.push({ type: 'removed', oldItem: oldArr[i] }); i++; }
   return result;
 }
+
 
 // LCS 기반 시퀀스 비교: 문서 전체를 위키피디아 편집 이력 비교하듯 훑음
 function computeLCSDiff(oldArr, newArr) {
