@@ -645,6 +645,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
     } else if (b.type === 'paragraph') {
       const oldSentences = op.oldItem.sentences;
       const newSentences = b.sentences;
+      const oldSet = new Set(oldSentences); // 예전에 있던 문장들
       const p = document.createElement('p');
       const maxLen = Math.max(oldSentences.length, newSentences.length);
       for (let k = 0; k < maxLen; k++) {
@@ -652,7 +653,11 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
         const newS = newSentences[k] || '';
         const span = document.createElement('span');
         span.className = 'sentence';
-        if (oldS === newS) {
+        // 순서만 밀렸을 뿐 예전에도 있던 문장이면 "안 바뀐 것"으로 처리
+        if (newS && oldSet.has(newS)) {
+          span.classList.add('hidden');
+          span.textContent = newS;
+        } else if (oldS === newS) {
           span.classList.add('hidden');
           span.textContent = newS;
                     } else if (newS) {
