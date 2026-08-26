@@ -502,9 +502,9 @@ function snapshotBlocks(bodyEl) {
     } else if (el.classList && el.classList.contains('wiki-subheading2')) {
       const t = el.querySelector('.heading-text');
       if (t) blocks.push({ type: 'heading2', text: t.textContent.trim() });
-    } else if (el.tagName === 'P' && !el.classList.contains('wiki-notice')) {
+        } else if (el.tagName === 'P' && !el.classList.contains('wiki-notice') && !el.classList.contains('wiki-edit-guide')) {
       const text = el.textContent.trim();
-      if (text) blocks.push({ type: 'paragraph', sentences: splitSentences(text) });
+      blocks.push({ type: 'paragraph', sentences: text ? splitSentences(text) : [] });
     } else if (el.classList && el.classList.contains('table-block')) {
       const table = el.querySelector('table');
       if (!table) return;
@@ -589,21 +589,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
 
   diffOps.forEach(op => {
         if (op.type === 'removed') {
-      // 삭제된 문단도 표시하되, 한 번에 최대 2개까지만 (짝짓기 오류로 인한 폭주 방지)
-      if (op.oldItem.type === 'paragraph' && removedParagraphCount < 2) {
-        removedParagraphCount++;
-        const p = document.createElement('p');
-        op.oldItem.sentences.forEach(s => {
-          const span = document.createElement('span');
-          span.className = 'sentence';
-          span.textContent = s;
-          p.appendChild(span);
-          p.appendChild(document.createTextNode(' '));
-          removals.push({ span, text: s });
-        });
-        rightBody.appendChild(p);
-      }
-      return;
+      return; // 삭제된 문단은 표시하지 않음 (안정성 우선)
     }
 
     if (op.type === 'added') {
