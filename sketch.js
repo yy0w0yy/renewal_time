@@ -594,7 +594,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
       const b = op.newItem;
       if (b.type === 'heading1' || b.type === 'heading2') {
         rightBody.appendChild(makeHeadingDiv(b.text, b.type === 'heading1' ? 1 : 2));
-      } else if (b.type === 'paragraph') {
+            } else if (b.type === 'paragraph') {
         const p = document.createElement('p');
         b.sentences.forEach(s => {
           const span = document.createElement('span');
@@ -602,6 +602,7 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
           p.appendChild(span);
           p.appendChild(document.createTextNode(' '));
           animations.push({ span, oldText: '', newText: s });
+          lastChangedSentence = s;
         });
         rightBody.appendChild(p);
       } else if (b.type === 'table') {
@@ -690,18 +691,40 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
   });
 
   // 방금 바뀐 부분으로 오른쪽 패널을 자동 스크롤
-       const lastAnim = animations[animations.length - 1];
+    // 대상이 화면에 안 보이면, 아래쪽에 여유(margin)를 두고 스크롤
+    function scrollWithMargin(panel, el) {
+    if (!panel || !el) return;
+    autoScrolling = true;
+    setTimeout(() => { autoScrolling = false; }, 800); // 스크롤 애니메이션이 끝날 때쯤 해제
+    const margin = 120; // 여유 공간 (px)
+    const panelRect = panel.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+
+    // 요소 아래쪽이 패널 아래 경계 + 여유를 넘어가면 아래로 스크롤
+    const overflowBottom = elRect.bottom + margin - panelRect.bottom;
+    if (overflowBottom > 0) {
+      panel.scrollBy({ top: overflowBottom, behavior: 'smooth' });
+      return;
+    }
+    // 요소 위쪽이 패널 위 경계 - 여유보다 위에 있으면 위로 스크롤
+    const overflowTop = panelRect.top + margin - elRect.top;
+    if (overflowTop > 0) {
+      panel.scrollBy({ top: -overflowTop, behavior: 'smooth' });
+    }
+  }
+
+  const lastAnim = animations[animations.length - 1];
   const lastRemoval = removals[removals.length - 1];
   const lastTarget = (lastAnim && lastAnim.span) || (lastRemoval && lastRemoval.span);
   if (lastTarget) {
-    lastTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const rightP = lastTarget.closest('p') || lastTarget;
+    scrollWithMargin(panelRight, rightP);
   }
 
-  // 왼쪽 패널: 마지막으로 수정된 문장이 들어있는 문단을 찾아서, 안 보이면 보이도록 스크롤
-  if (lastChangedSentence) {
-    const leftPs = Array.from(leftBody.children).filter(el => el.tagName === 'P' && !el.classList.contains('wiki-notice'));
-    const target = leftPs.find(p => p.textContent.includes(lastChangedSentence));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+   if (lastChangedSentence) {
+    const leftEls = Array.from(leftBody.children).filter(el => !el.classList.contains('wiki-notice') && !el.classList.contains('wiki-edit-guide'));
+    const target = leftEls.find(el => el.textContent.includes(lastChangedSentence));
+    scrollWithMargin(panelLeft, target);
   }
 }
 // ---------- 저장/불러오기 (이제 순수 텍스트/HTML만 저장하면 충분해요) ----------
@@ -799,8 +822,9 @@ editBtn.addEventListener('click', () => {
 });
 
 let syncing = false;
+let autoScrolling = false; // 자동 스크롤 중에는 동기화를 멈춤
 panelLeft.addEventListener('scroll', () => {
-  if (syncing) return;
+  if (syncing || autoScrolling) return;
   syncing = true;
   const ratio = panelLeft.scrollTop / Math.max(panelLeft.scrollHeight - panelLeft.clientHeight, 1);
   panelRight.scrollTop = ratio * Math.max(panelRight.scrollHeight - panelRight.clientHeight, 1);
