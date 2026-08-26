@@ -17,7 +17,7 @@
   :root { --scale: 4; }
 }
 body {
-  font-family: 'Apple SD Gothic Neo', 'sans-serif';
+  font-family: 'Apple SD Gothic Neo', sans-serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -27,7 +27,7 @@ html, body {
   height: 100%;
   background: var(--bg);
   color: var(--light-text);
-  font-family: 'Apple SD Gothic Neo', 'sans-serif';
+  font-family: 'Apple SD Gothic Neo', sans-serif;
   font-weight: 400;
   font-style: normal;
   overflow: hidden;
@@ -76,7 +76,7 @@ html, body {
   transition: color 0.2s ease;
 }
 .main-nav button:first-child {
-  margin-top: -16px;
+  margin-top: -18px;
 }
 .main-nav button:hover {
   color: var(--light-text);
@@ -99,7 +99,7 @@ html, body {
   background: none;
   border: none;
   color: var(--light-muted);
-  font-family: 'Apple SD Gothic Neo', 'sans-serif';
+  font-family: 'Apple SD Gothic Neo', sans-serif;
   font-size: calc(17px * var(--scale));
   cursor: pointer;
 }
@@ -399,16 +399,16 @@ html, body {
   text-align: justify;
 }
 /* 첫 번째 이미지 ("갱신되는 시간") 배치 */
-.layout-a .box-1 { left: 38%; top: 12%; width: 33%; }
+.layout-a .box-1 { left: 38%; top: 9.5%; width: 33%; }
 .layout-a .box-2 { left: 60%; top: 44%; width: 34%; }
-.layout-b .box-1 { left: 34%; top: 12%; width: 33%; }
+.layout-b .box-1 { left: 34%; top: 9.5%; width: 33%; }
 .layout-b .box-2 { left: 62%; top: 57%; width: 30%; }
 .explain-col p {
   margin: 0 0 20px 0;
 }
 @media (min-width: 2500px) {
-  .layout-a .box-1 { top: 4%; }
-  .layout-b .box-1 { top: 4%; }
+  .layout-a .box-1 { top: 4.5%; }
+  .layout-b .box-1 { top: 4.5%; }
 }
 @media (min-width: 5000px) {
   .layout-a .box-1 { top: 5%; }
