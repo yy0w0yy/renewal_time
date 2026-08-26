@@ -580,14 +580,29 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
   opts = opts || {};
     const diffOps = pairByIndex(oldBlocks, newBlocks);
 
+    let removedParagraphCount = 0;
   rightBody.innerHTML = '';
    const animations = [];
   const removals = [];
   let lastChangedSentence = null;
 
   diffOps.forEach(op => {
-    if (op.type === 'removed') {
-      return; // 삭제된 문단은 오른쪽에 그리지 않음 (예전 기록이 되살아나는 것 방지)
+        if (op.type === 'removed') {
+      // 삭제된 문단도 표시하되, 한 번에 최대 2개까지만 (짝짓기 오류로 인한 폭주 방지)
+      if (op.oldItem.type === 'paragraph' && removedParagraphCount < 2) {
+        removedParagraphCount++;
+        const p = document.createElement('p');
+        op.oldItem.sentences.forEach(s => {
+          const span = document.createElement('span');
+          span.className = 'sentence';
+          span.textContent = s;
+          p.appendChild(span);
+          p.appendChild(document.createTextNode(' '));
+          removals.push({ span, text: s });
+        });
+        rightBody.appendChild(p);
+      }
+      return;
     }
 
     if (op.type === 'added') {
@@ -656,8 +671,9 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
           span.classList.add('hidden');
           animations.push({ span, oldText: oldS, newText: newS });
           lastChangedSentence = newS;
-               } else {
-          span.classList.add('hidden');
+              } else {
+          span.textContent = oldS;
+          removals.push({ span, text: oldS });
         }
         p.appendChild(span);
         p.appendChild(document.createTextNode(' '));
@@ -830,3 +846,4 @@ panelLeft.addEventListener('scroll', () => {
   panelRight.scrollTop = ratio * Math.max(panelRight.scrollHeight - panelRight.clientHeight, 1);
   requestAnimationFrame(() => { syncing = false; });
 });
+
