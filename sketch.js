@@ -531,17 +531,27 @@ function blockKey(b) {
 // 예전 버전 문장이 엉뚱하게 되살아나는 일이 구조적으로 없어짐
 function pairByIndex(oldArr, newArr) {
   const result = [];
-  const len = Math.max(oldArr.length, newArr.length);
-  for (let i = 0; i < len; i++) {
-    const o = oldArr[i], n = newArr[i];
-    if (o && n && o.type === n.type) {
+  let i = 0, j = 0;
+  while (i < oldArr.length && j < newArr.length) {
+    const o = oldArr[i], n = newArr[j];
+    if (o.type === n.type) {
       result.push({ type: 'same', oldItem: o, newItem: n });
-    } else if (n) {
-      result.push({ type: 'added', newItem: n });
-    } else if (o) {
-      result.push({ type: 'removed', oldItem: o });
+      i++; j++;
+      continue;
+    }
+    // 타입이 다르면: 뒤쪽에서 같은 타입을 찾아 어느 쪽이 삽입/삭제됐는지 판단
+    const nextSameInNew = newArr.findIndex((x, idx) => idx > j && x.type === o.type);
+    const nextSameInOld = oldArr.findIndex((x, idx) => idx > i && x.type === n.type);
+    if (nextSameInNew !== -1 && (nextSameInOld === -1 || nextSameInNew - j <= nextSameInOld - i)) {
+      result.push({ type: 'added', newItem: n }); // 새 항목이 끼어든 것
+      j++;
+    } else {
+      result.push({ type: 'removed', oldItem: o }); // 예전 항목이 사라진 것
+      i++;
     }
   }
+  while (j < newArr.length) { result.push({ type: 'added', newItem: newArr[j] }); j++; }
+  while (i < oldArr.length) { result.push({ type: 'removed', oldItem: oldArr[i] }); i++; }
   return result;
 }
 
