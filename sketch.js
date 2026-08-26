@@ -220,11 +220,6 @@ function setupClickableWord(pageIdx, target, onClick) {
   body.appendChild(document.createTextNode(original.slice(idx + target.length)));
 }
 
-setupClickableWord(2, '새로고침', () => {
-  sessionStorage.setItem('reloadTarget', 'explain-2');
-  location.reload();
-});
-
 
 
 function typewriterOverwrite(el, oldText, newText, speed = 18) {
@@ -298,21 +293,6 @@ let editCount = 0;
 
 function splitSentences(text) {
   return text.trim().split(/(?<=[.?!])\s+/).filter(s => s.trim().length > 0);
-}
-
-function simpleWordDiff(oldText, newText) {
-  const oldWords = oldText.split(/(\s+)/);
-  const newWords = newText.split(/(\s+)/);
-  let prefix = 0;
-  while (prefix < oldWords.length && prefix < newWords.length && oldWords[prefix] === newWords[prefix]) prefix++;
-  let oldEnd = oldWords.length, newEnd = newWords.length;
-  while (oldEnd > prefix && newEnd > prefix && oldWords[oldEnd-1] === newWords[newEnd-1]) { oldEnd--; newEnd--; }
-  return {
-    before: oldWords.slice(0, prefix).join(''),
-    removed: oldWords.slice(prefix, oldEnd).join(''),
-    added: newWords.slice(prefix, newEnd).join(''),
-    after: oldWords.slice(oldEnd).join('')
-  };
 }
 
 function escapeHtml(str) {
@@ -547,6 +527,24 @@ function blockKey(b) {
   return '';
 }
 
+// 문단을 "내용"이 아니라 "순서"로 짝지음 — 내용을 어떻게 고치든 항상 같은 자리끼리 비교되므로
+// 예전 버전 문장이 엉뚱하게 되살아나는 일이 구조적으로 없어짐
+function pairByIndex(oldArr, newArr) {
+  const result = [];
+  const len = Math.max(oldArr.length, newArr.length);
+  for (let i = 0; i < len; i++) {
+    const o = oldArr[i], n = newArr[i];
+    if (o && n && o.type === n.type) {
+      result.push({ type: 'same', oldItem: o, newItem: n });
+    } else if (n) {
+      result.push({ type: 'added', newItem: n });
+    } else if (o) {
+      result.push({ type: 'removed', oldItem: o });
+    }
+  }
+  return result;
+}
+
 // LCS 기반 시퀀스 비교: 문서 전체를 위키피디아 편집 이력 비교하듯 훑음
 function computeLCSDiff(oldArr, newArr) {
   const oldKeys = oldArr.map(blockKey);
@@ -580,27 +578,16 @@ function computeLCSDiff(oldArr, newArr) {
 // diff 결과를 오른쪽 화면에 그리고, 애니메이션까지 재생
 function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
   opts = opts || {};
-  const diffOps = computeLCSDiff(oldBlocks, newBlocks);
+    const diffOps = pairByIndex(oldBlocks, newBlocks);
 
   rightBody.innerHTML = '';
-  const animations = [];
+   const animations = [];
   const removals = [];
+  let lastChangedSentence = null;
 
   diffOps.forEach(op => {
     if (op.type === 'removed') {
-      if (op.oldItem.type === 'paragraph') {
-        const p = document.createElement('p');
-        op.oldItem.sentences.forEach(s => {
-          const span = document.createElement('span');
-          span.className = 'sentence';
-          span.textContent = s;
-          p.appendChild(span);
-          p.appendChild(document.createTextNode(' '));
-          removals.push({ span, text: s });
-        });
-        rightBody.appendChild(p);
-      }
-      return;
+      return; // 삭제된 문단은 오른쪽에 그리지 않음 (예전 기록이 되살아나는 것 방지)
     }
 
     if (op.type === 'added') {
@@ -664,12 +651,12 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
         if (oldS === newS) {
           span.classList.add('hidden');
           span.textContent = newS;
-        } else if (newS) {
+                    } else if (newS) {
           span.classList.add('hidden');
           animations.push({ span, oldText: oldS, newText: newS });
-        } else {
-          span.textContent = oldS;
-          removals.push({ span, text: oldS });
+          lastChangedSentence = newS;
+               } else {
+          span.classList.add('hidden');
         }
         p.appendChild(span);
         p.appendChild(document.createTextNode(' '));
@@ -703,18 +690,18 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
   });
 
   // 방금 바뀐 부분으로 오른쪽 패널을 자동 스크롤
-   const lastAnim = animations[animations.length - 1];
+       const lastAnim = animations[animations.length - 1];
   const lastRemoval = removals[removals.length - 1];
   const lastTarget = (lastAnim && lastAnim.span) || (lastRemoval && lastRemoval.span);
   if (lastTarget) {
-    lastTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => {
-      const ratio = panelRight.scrollTop / Math.max(panelRight.scrollHeight - panelRight.clientHeight, 1);
-      panelLeft.scrollTo({
-        top: ratio * Math.max(panelLeft.scrollHeight - panelLeft.clientHeight, 1),
-        behavior: 'smooth'
-      });
-    }, 100);
+    lastTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // 왼쪽 패널: 마지막으로 수정된 문장이 들어있는 문단을 찾아서, 안 보이면 보이도록 스크롤
+  if (lastChangedSentence) {
+    const leftPs = Array.from(leftBody.children).filter(el => el.tagName === 'P' && !el.classList.contains('wiki-notice'));
+    const target = leftPs.find(p => p.textContent.includes(lastChangedSentence));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 }
 // ---------- 저장/불러오기 (이제 순수 텍스트/HTML만 저장하면 충분해요) ----------

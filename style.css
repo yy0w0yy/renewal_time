@@ -183,6 +183,8 @@ html, body {
 }
 .wiki-panel {
   flex: 1;
+  min-height: 0;
+  height: 100%;
   background: var(--panel);
   color: var(--panel-text);
   border-radius: 8px;
