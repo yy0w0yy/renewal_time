@@ -284,7 +284,7 @@ const rightBody = document.getElementById('right-body');
 let isEditing = false;
 
 // 전시 시작 날짜 (연, 월-1, 일) — 실제 전시 첫날로 바꿔주세요. 월은 0부터 시작해요 (8월이면 7)
-const EXHIBITION_START = new Date(2026, 8, 23);
+const EXHIBITION_START = new Date(2026, 7, 23);
 
 function getExhibitionDay() {
   const today = new Date();
@@ -294,7 +294,7 @@ function getExhibitionDay() {
   return Math.min(Math.max(diff + 1, 1), 5); // 1~5일차로 제한
 }
 
-let editCount = 0; // 오늘 몇 번 수정됐는지
+let editCount = 0;
 
 function splitSentences(text) {
   return text.trim().split(/(?<=[.?!])\s+/).filter(s => s.trim().length > 0);
@@ -319,7 +319,7 @@ function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function animateSentenceReplace(span, oldText, newText) {
+function animateSentenceReplace(span, oldText, newText, onDone) {
   let p = 0;
   const maxP = Math.min(oldText.length, newText.length);
   while (p < maxP && oldText[p] === newText[p]) p++;
@@ -353,16 +353,20 @@ function animateSentenceReplace(span, oldText, newText) {
   function typeNew() {
     if (newMiddle.length === 0) {
       span.textContent = newText;
+      if (onDone) onDone();
       return;
     }
     j++;
     span.innerHTML = escapeHtml(prefix) +
       '<span class="diff-added">' + escapeHtml(newMiddle.slice(0, j)) + '</span>' +
       escapeHtml(suffix);
-    if (j < newMiddle.length) {
+        if (j < newMiddle.length) {
       setTimeout(typeNew, 45);
     } else {
-      setTimeout(() => { span.textContent = newText; }, 500);
+      setTimeout(() => {
+        span.textContent = newText;
+        if (onDone) onDone();
+      }, 500);
     }
   }
 
@@ -679,10 +683,17 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
     rightVersion.textContent = 'ver. ' + getExhibitionDay() + '.' + editCount;
   }
 
-   animations.forEach(({ span, oldText, newText }) => {
+     let animIndex = 0;
+  function playNextAnimation() {
+    if (animIndex >= animations.length) return;
+    const { span, oldText, newText } = animations[animIndex];
+    animIndex++;
     span.classList.remove('hidden');
-    animateSentenceReplace(span, oldText, newText);
-  });
+    animateSentenceReplace(span, oldText, newText, () => {
+      setTimeout(playNextAnimation, 200); // 문장 사이 간격
+    });
+  }
+  playNextAnimation();
 
   removals.forEach(({ span, text }) => {
     animateSentenceReplace(span, text, '');
@@ -690,9 +701,18 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
   });
 
   // 방금 바뀐 부분으로 오른쪽 패널을 자동 스크롤
-  const firstTarget = (animations[0] && animations[0].span) || (removals[0] && removals[0].span);
-  if (firstTarget) {
-    firstTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+   const lastAnim = animations[animations.length - 1];
+  const lastRemoval = removals[removals.length - 1];
+  const lastTarget = (lastAnim && lastAnim.span) || (lastRemoval && lastRemoval.span);
+  if (lastTarget) {
+    lastTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => {
+      const ratio = panelRight.scrollTop / Math.max(panelRight.scrollHeight - panelRight.clientHeight, 1);
+      panelLeft.scrollTo({
+        top: ratio * Math.max(panelLeft.scrollHeight - panelLeft.clientHeight, 1),
+        behavior: 'smooth'
+      });
+    }, 100);
   }
 }
 // ---------- 저장/불러오기 (이제 순수 텍스트/HTML만 저장하면 충분해요) ----------
@@ -791,4 +811,13 @@ editBtn.addEventListener('click', () => {
 
 document.getElementById('edit-guide-confirm-btn').addEventListener('click', () => {
   document.getElementById('edit-guide-overlay')?.classList.remove('show');
+});
+
+let syncing = false;
+panelLeft.addEventListener('scroll', () => {
+  if (syncing) return;
+  syncing = true;
+  const ratio = panelLeft.scrollTop / Math.max(panelLeft.scrollHeight - panelLeft.clientHeight, 1);
+  panelRight.scrollTop = ratio * Math.max(panelRight.scrollHeight - panelRight.clientHeight, 1);
+  requestAnimationFrame(() => { syncing = false; });
 });
