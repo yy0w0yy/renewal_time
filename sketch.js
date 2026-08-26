@@ -686,9 +686,9 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
         } else if (oldS === newS) {
           span.classList.add('hidden');
           span.textContent = newS;
-                    } else if (newS) {
+           } else if (newS) {
           span.classList.add('hidden');
-          animations.push({ span, oldText: oldS, newText: newS });
+          animations.push({ span, oldText: oldS, newText: newS, risky: true });
           lastChangedSentence = newS;
               } else {
           span.textContent = oldS;
@@ -708,7 +708,16 @@ function renderDiffAndAnimate(oldBlocks, newBlocks, opts) {
     rightVersion.textContent = 'ver. ' + getExhibitionDay() + '.' + editCount;
   }
 
-     let animIndex = 0;
+     // 짝짓기 오류로 의심되는 항목(risky)이 5개를 넘으면, 그중 최근 3개만 남김
+  const riskyCount = animations.filter(a => a.risky).length;
+  if (riskyCount > 5) {
+    const safe = animations.filter(a => !a.risky);           // 새로 쓴 문장은 전부 유지
+    const risky = animations.filter(a => a.risky).slice(-3);  // 의심 항목은 3개만
+    animations.length = 0;
+    animations.push(...safe, ...risky);
+  }
+
+  let animIndex = 0;
   function playNextAnimation() {
     if (animIndex >= animations.length) return;
     const { span, oldText, newText } = animations[animIndex];
