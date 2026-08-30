@@ -11,10 +11,10 @@
   --added-bg: #d3e8da;
 }
 @media (min-width: 2500px) {
-  :root { --scale: 1.25; }
+  :root { --scale: 1.5; }
 }
 @media (min-width: 5000px) {
-  :root { --scale: 3.2; }
+  :root { --scale: 3.4; }
 }
 body {
   font-family: 'Apple SD Gothic Neo', sans-serif;
