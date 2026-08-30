@@ -415,7 +415,7 @@ html, body {
   .tab-bar { height: 90px; }
   .explain-page { min-height: calc(100vh - 90px); }
     .scroll-toast { bottom: 200px; }
-    .explain-freeform-box { font-size: calc(15px * var(--scale)); }
+    .explain-freeform-box { font-size: calc(16px * var(--scale)); }
   #screen-experience { padding-bottom: calc(90px + 24px); }
 }
 @media (min-width: 5000px) {
@@ -428,7 +428,7 @@ html, body {
   .scroll-toast { bottom: 260px; }
   #screen-experience { padding-bottom: calc(110px + 24px); }
   .explain-page h2 { top: 200px; }
-  .explain-freeform-box { font-size: calc(15px * var(--scale)); }
+  .explain-freeform-box { font-size: calc(16px * var(--scale)); }
 }
 
 /* 스크롤바를 어두운 톤으로 (아이맥에서 마우스 연결 시 항상 보이는 문제 대응) */
