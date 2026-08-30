@@ -408,8 +408,8 @@ html, body {
   margin: 0 0 20px 0;
 }
 @media (min-width: 2500px) {
-  .layout-a .box-1 { top: 4.5%; }
-  .layout-b .box-1 { top: 4.5%;
+  .layout-a .box-1 { top: 5%; }
+  .layout-b .box-1 { top: 5%;
   .layout-a .box-2 { top: 36%; }
   .layout-b .box-2 { top: 45%; } }
   .tab-bar { height: 90px; }
@@ -419,8 +419,8 @@ html, body {
   #screen-experience { padding-bottom: calc(90px + 24px); }
 }
 @media (min-width: 5000px) {
-  .layout-a .box-1 { top: 5%; }
-  .layout-b .box-1 { top: 5%;
+  .layout-a .box-1 { top: 5.5%; }
+  .layout-b .box-1 { top: 5.5%;
   .layout-a .box-2 { top: 36%; }
   .layout-b .box-2 { top: 45%; } }
   .tab-bar { height: 110px; }
