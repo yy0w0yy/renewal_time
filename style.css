@@ -14,7 +14,7 @@
   :root { --scale: 2; }
 }
 @media (min-width: 5000px) {
-  :root { --scale: 4; }
+  :root { --scale: 3.5; }
 }
 body {
   font-family: 'Apple SD Gothic Neo', sans-serif;
@@ -409,10 +409,42 @@ html, body {
 }
 @media (min-width: 2500px) {
   .layout-a .box-1 { top: 4.5%; }
-  .layout-b .box-1 { top: 4.5%; }
+  .layout-b .box-1 { top: 4.5%;
+  .layout-a .box-2 { top: 36%; }
+  .layout-b .box-2 { top: 45%; } }
+  .tab-bar { height: 90px; }
+  .explain-page { min-height: calc(100vh - 90px); }
+    .scroll-toast { bottom: 200px; }
+  #screen-experience { padding-bottom: calc(90px + 24px); }
 }
 @media (min-width: 5000px) {
   .layout-a .box-1 { top: 5%; }
-  .layout-b .box-1 { top: 5%; }
+  .layout-b .box-1 { top: 5%;
+  .layout-a .box-2 { top: 36%; }
+  .layout-b .box-2 { top: 45%; } }
+  .tab-bar { height: 110px; }
+  .explain-page { min-height: calc(100vh - 110px); }
+  .scroll-toast { bottom: 260px; }
+  #screen-experience { padding-bottom: calc(110px + 24px); }
   .explain-page h2 { top: 200px; }
+}
+
+/* 스크롤바를 어두운 톤으로 (아이맥에서 마우스 연결 시 항상 보이는 문제 대응) */
+.explain-scroll::-webkit-scrollbar,
+.wiki-panel::-webkit-scrollbar {
+  width: 8px;
+}
+.explain-scroll::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+.explain-scroll::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+  border-radius: 4px;
+}
+.wiki-panel::-webkit-scrollbar-track {
+  background: var(--panel);
+}
+.wiki-panel::-webkit-scrollbar-thumb {
+  background: #c9cbd0;
+  border-radius: 4px;
 }
