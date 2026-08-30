@@ -445,9 +445,9 @@ html, body {
 .scroll-hint { display: none; }
 
 @media (min-width: 2500px) {
-  .layout-a .box-1 { top: 9%; }
+  .layout-a .box-1 { top: 14%; }
   .layout-b .box-1 { top: 5%; }
-  .layout-a .box-2 { top: 45%; }
+  .layout-a .box-2 { top: 52%; }
   .layout-b .box-2 { top: 45%; }
   .tab-bar { height: 90px; }
   .explain-page { min-height: calc(100vh - 90px); }
