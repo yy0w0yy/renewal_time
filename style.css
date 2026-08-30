@@ -445,7 +445,7 @@ html, body {
 .scroll-hint { display: none; }
 
 @media (min-width: 2500px) {
-  .layout-a .box-1 { top: 14%; }
+  .layout-a .box-1 { top: 13%; }
   .layout-b .box-1 { top: 5%; }
   .layout-a .box-2 { top: 52%; }
   .layout-b .box-2 { top: 45%; }
