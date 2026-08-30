@@ -407,7 +407,6 @@ html, body {
 .explain-col p {
   margin: 0 0 20px 0;
 }
-
 @media (min-width: 5000px) {
   .layout-a .box-1 { top: 7%; }
   .layout-b .box-1 { top: 5.5%;
