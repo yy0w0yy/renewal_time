@@ -409,13 +409,13 @@ html, body {
 }
 @media (min-width: 2500px) {
   .layout-a .box-1 { top: 7%; }
-  .layout-b .box-1 { top: 5%;
+  .layout-b .box-1 { top: 5%; }
   .layout-a .box-2 { top: 38%; }
-  .layout-b .box-2 { top: 45%; } }
+  .layout-b .box-2 { top: 45%; }
   .tab-bar { height: 90px; }
   .explain-page { min-height: calc(100vh - 90px); }
-    .scroll-toast { bottom: 200px; }
-    .explain-freeform-box { font-size: calc(18px * var(--scale)); }
+  .scroll-toast { bottom: 200px; }
+  .explain-freeform-box { font-size: calc(18px * var(--scale)); }
   #screen-experience { padding-bottom: calc(90px + 24px); }
   .explain-page h2 { top: 200px; }
   .explain-page:nth-child(7) h2 { top: 100px; }
